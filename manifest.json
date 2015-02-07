@@ -1,0 +1,30 @@
+{
+    "name":"HackHousingProject",
+    "version":"0.1",
+    "description":"HackHousingProject",
+    "manifest_version": 2,
+    "incognito": "spanning",
+    "icons": { 
+        "16": "images/icons/icon16.png",
+        "48": "images/icons/icon48.png",
+        "128": "images/icons/icon.png"
+    },
+    "content_scripts":[{
+        "all_frames": true,
+        "matches":[
+            "*://*.mint.com/*",
+            "*://*.zillow.com/*"
+        ],
+        "js": ["jquery-1.11.1.min.js", "mint.js", "zillow.js", "hackHousingProject.js"],
+        "run_at":"document_start"
+    }],
+    "web_accessible_resources": [
+        "images/app/*"
+    ],
+    "page_action":{
+        "default_title": "HackHousingProject"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    }
+}
