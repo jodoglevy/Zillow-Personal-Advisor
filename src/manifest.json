@@ -25,6 +25,11 @@
         "default_title": "HackHousingProject"
     },
     "background": {
-        "scripts": ["background.js"]
-    }
+        "scripts": ["jquery-1.11.1.min.js", "background.js"]
+    },
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "*://*.zillow.com/*"
+    ]
 }
