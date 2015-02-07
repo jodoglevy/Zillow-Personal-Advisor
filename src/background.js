@@ -48,8 +48,40 @@ chrome.webRequest.onBeforeRequest.addListener(
           .done(function(response) {
             // transform response
 
+            var manipulationAction = "replace"; // "replace", "remove"
+            var affordabilityPreference = .15; // Slider controls percentage
+
             response.map.properties.forEach(function(house) {
-              house[3] = "Too expensive!"; // just a test
+              var houseAsString = house[3];
+              var housePrice;
+              var priceLimit = 500 * (1 + affordabilityPreference);
+              houseAsString = houseAsString.replace(/\$/g, '');
+
+              // if its above a million it will be displayed $2.5M
+              if(houseAsString.indexOf("M") !== -1)
+              {
+                housePrice = parseInt(houseAsString);
+                housePrice = housePrice * 1000;
+              } else {
+                housePrice = parseInt(houseAsString);
+              }
+
+              switch(manipulationAction)
+              {
+                case "none" : break;
+                case "replace" :
+                  if(housePrice > priceLimit)
+                  {
+                    house[3] = "Too much";
+                  }
+                  break;
+                case "remove" :
+                  if(housePrice > priceLimit)
+                  {
+                    house.shouldDelete = true;
+                  }
+              }
+
             });
 
             responseRewriter[details.url] = response;
