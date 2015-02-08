@@ -42,6 +42,10 @@ function startZillow() {
 			console.log("interestRate: " + interestRate);
 	});
     });
+
+  if(window.location.pathname.indexOf("Profile.htm") !== -1) {
+	modifyZillowProfile();
+  }
 }
 
 function doIqualify(state) {
