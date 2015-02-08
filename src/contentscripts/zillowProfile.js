@@ -120,7 +120,14 @@ function modifyZillowProfile() {
 
       globalStorage.setItem('userInfo', userInfoStringified);
 
-      $("#financial-form").slideUp();
+      $("#financial-form").slideUp(400, function() {
+        globalStorage.getItem("houseCosts", function(houseCosts) {
+          if(houseCosts) {
+            setAffordabilityNumbers(JSON.parse(houseCosts));
+          }
+        });
+      });
+
       return false;
     });
 
@@ -135,6 +142,25 @@ function modifyZillowProfile() {
 
   $("#profile-aboutme-content").append(financialDataLink);
   
+}
+
+function setAffordabilityNumbers(info) {
+  console.log(info);
+  var containerElement = $("#profile-aboutme-editRegion").parent();
+
+  var affordabilityDiv = $("<div/>", {
+    id : "affordabilityDiv",
+    style : "display:none"
+  });
+  var comfortableHouseCost = $("<p>Comfortable House Cost: " + info.comfortableHouseCost + "</p>");
+  var maxHouseCost = $("<p>Max House Cost: " + info.maxHouseCost + "</p>");
+
+  affordabilityDiv.append(comfortableHouseCost);
+  affordabilityDiv.append(maxHouseCost);
+
+  containerElement.append(affordabilityDiv);
+
+  affordabilityDiv.slideDown(700);
 }
 
 function populateFormWithValues(info) {

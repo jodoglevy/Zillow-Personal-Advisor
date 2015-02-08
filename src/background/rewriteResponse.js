@@ -23,9 +23,10 @@ function rewriteZillowGetResultsResponse(data, callback) {
       case "replace" :
         if(housePrice > priceLimit) {
           house[3] = "Too much";
+          house[4] = 1;
         }
         else {
-          house[3] = "Affordable";
+          house[5] = 2;
         }
         break;
       case "remove" :

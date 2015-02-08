@@ -35,6 +35,13 @@ function startZillow() {
 	var comfortableHouseCost = Math.round(currentHouseCostLoanAmount + availableForDown);
 	var maxHouseCost = Math.round(maxLoanAmount + availableForDown);
 
+	var houseCostObjects = {
+		"maxHouseCost" : maxHouseCost,
+		"comfortableHouseCost" : comfortableHouseCost
+	};
+
+	globalStorage.setItem("houseCosts", JSON.stringify(houseCostObjects));
+
 	console.log("Comfortable House cost: " + comfortableHouseCost);
 	console.log("Max House cost: " + maxHouseCost);
 
