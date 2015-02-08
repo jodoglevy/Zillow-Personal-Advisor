@@ -6,7 +6,7 @@ function reloadMap() {
 
   	setTimeout(function() {
   		$(".zoom-out").click();
-  	}, 200);
+  	}, 1000);
  	}
   else {
   	setTimeout(reloadMap, 100);
@@ -30,6 +30,7 @@ function startZillow() {
         var searchFilters = $("#searchfilters");
         if(searchFilters) {
             appendHUDFilter(searchFilters);
+            appendMapFilter(searchFilters);
         }
         else {
             setTimeout(checkForSearchFilters, 100);
