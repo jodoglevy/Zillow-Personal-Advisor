@@ -1,5 +1,66 @@
 function startMint() {
-   
+  
+  if(!(globalStorage.getItem("grabFromMint") || true)) {
+    return;
+  }
+
+  if(window.location.pathname.indexOf("overview.event") === -1) {
+    
+    function monitorUrlChange() {
+      // login page changes its url to overview page, but doesn't actually
+      // load another page. look for that and if found act as if overview page
+      // was loaded
+
+      if(window.location.pathname.indexOf("overview.event") !== -1) {
+        startMint();
+      }
+      else {
+        setTimeout(monitorUrlChange, 100);
+      } 
+    }
+
+    function updateLoginMessage() {
+      var grabbingInfoMessage = $("<p class='error' style='display: block; background: #0074e4; border: 3px solid #03427E'>Please log in to import your information into Zillow.</p>");
+      var originalMessage = $("#authError");
+
+      if(originalMessage.length > 0) {
+        $(".getsat").after(grabbingInfoMessage);
+        originalMessage.remove();
+      }
+      else {
+        // hasn't fully loaded yet, try again
+        setTimeout(updateLoginMessage, 100);
+      }
+    }
+
+    updateLoginMessage();
+    monitorUrlChange();
+
+    return;
+  }
+  else {
+    function addIntegratingMessage() {
+      var grabbingInfoMessage = $("<p id='zillow-integration-msg' class='error' style='display: block; text-align:left; background: #0074e4; border: 3px solid #03427E'>Importing your information into Zillow, please wait...</p>");
+      var header = $("#body-header");
+
+      if(header.length > 0) {
+         header.append(grabbingInfoMessage);
+
+         setInterval(function() {
+          var message = $("#zillow-integration-msg");
+          message.text(message.text() + ".");
+         }, 500)
+      }
+      else {
+        // hasn't fully loaded yet, try again
+
+        setTimeout(addIntegratingMessage, 100);
+      }
+    }
+
+    addIntegratingMessage();
+  }
+
   setTimeout(function() {
     var mintInfo = {};
 
@@ -48,6 +109,7 @@ function startMint() {
         console.log(mintInfo);
         globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
 
+        window.close()
       });
 
     }
@@ -55,12 +117,4 @@ function startMint() {
       startMint();
     }
   }, 10000)
-
-
-  setTimeout(function() {
-    globalStorage.getItem("abc", function(value) {
-      console.log("from mint:" + value);
-      globalStorage.setItem("abc", "mint");
-    });
-  }, 5000);
 }
