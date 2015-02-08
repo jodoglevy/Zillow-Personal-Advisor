@@ -1,4 +1,5 @@
-Project name: Zillow Personal Advisor
+# Zillow Personal Advisor
+
 Team name: Aliens vs Predator vs. Brown vs. Board of Education
 
 ## Intro
