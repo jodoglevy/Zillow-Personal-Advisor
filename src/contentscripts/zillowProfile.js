@@ -1,5 +1,5 @@
 function modifyZillowProfile() {
-  var financialDataLink = $("<p><a>Add more detailed financial data to your profile.</a> You can enter your own info here or pull data from Mint.</p>");
+  var financialDataLink = $("<br /><p><strong>Need advise? </strong><a>Add your finances to Zillow</a> and we'll find the best homes for <strong>you, personally.</strong> Pull your data from <span style='color: #00c96d'><strong>Mint</strong></span> or enter it manually.</p>");
 
   financialDataLink.click(function() {
     var containerElement = $("#profile-aboutme-editRegion").parent();
@@ -31,8 +31,9 @@ function setupPullFromMint(financialDataSection) {
     if(!$("#mintButton").length) {
       var pullFromMintButton = $("<button/>", {
         id: "mintButton",
-        class: "zsg-button_primary",
-        text: "Pull Data From Mint"
+        //class: "zsg-button_primary",
+        text: "Pull From Mint",
+        style: "background-color: #00c96d; color: #fff; border: 1px solid transparent; border-radius: 5px; cursor: pointer; display:inline-block; padding: .4em .67em; white-space: normal; width: auto; line-height: 1.5"
       }).appendTo(financialDataSection);
 
       $("<p/>").appendTo(financialDataSection);
@@ -48,6 +49,7 @@ function setupPullFromMint(financialDataSection) {
             globalStorage.getItem("mintInfo", function(mintInfo) {
               if(mintInfo) {
                 populateFormWithValues(JSON.parse(mintInfo));
+                $(".fromMint").css("background", "rgba(0,201,109,0.2)");
               } else {
                 checkGrabbedMintInfo();
               }
@@ -75,26 +77,26 @@ function setupFinancialForm(financialDataSection) {
       class: "form-field-wrapper"
     }).appendTo(fieldSet);
 
-    addFormField(formList, "monthlyIncome", "Monthly Income", "Enter your monthly income in $US (e.g. 2000)");
-    addFormField(formList, "averageMonthlyLeftOver", "Monthly Net", "Enter your current monthly leftover money");
-    addFormField(formList, "creditScore", "Credit Score", "Enter your credit score");
-    addFormField(formList, "totalLiquidAssets", "Total Liquid Assets", "Enter your total liquid assets");
+    addFormField(formList, "monthlyIncome", "Monthly Income", "Enter your average gross monthly income in $US (e.g. 2000)", true);
+    addFormField(formList, "averageMonthlyLeftOver", "Monthly Net", "Enter your average net monthly income in $US (e.g. 1000)", true);
+    addFormField(formList, "creditScore", "Credit Score", "Enter your credit score", true);
+    addFormField(formList, "totalLiquidAssets", "Total Liquid Assets", "Enter your total liquid assets (non-invested assets)", true);
 
     var selectValues = ["Select Marital Status", "Single", "Married", "Living Together", "No Longer Married"];
-    AddDropDownField(formList, "maritalStatus", "Marital Status", selectValues);
+    AddDropDownField(formList, "maritalStatus", "Marital Status", selectValues, true);
 
-    addFormField(formList, "monthlyHousingCost", "Monthly Housing Cost", "Enter your current monthly house payment");
+    addFormField(formList, "monthlyHousingCost", "Monthly Housing Cost", "Enter your current monthly house payment e.g. for rent or existing mortgage", true);
 
     var yesNoValues = ["Yes", "No"];
-    AddDropDownField(formList, "isTeacher", "Are you a teacher?", yesNoValues);
-    AddDropDownField(formList, "isVeteran", "Are you a veteran?", yesNoValues);
-    AddDropDownField(formList, "isDisabled", "Are you a disabled?", yesNoValues);
+    AddDropDownField(formList, "isTeacher", "Are you a teacher?", yesNoValues, true);
+    AddDropDownField(formList, "isVeteran", "Are you a veteran?", yesNoValues, false);
+    AddDropDownField(formList, "isDisabled", "Are you a disabled?", yesNoValues, false);
 
     var householdAdults = ["1 Adult", "2 Adults", "3 Adults", "4 Adults", "5 Adults", "6+ Adults"];
-    AddNumericDropDownField(formList, "householdSizeAdults", "How many household adults?", householdAdults);
+    AddNumericDropDownField(formList, "householdSizeAdults", "How many adults in your household?", householdAdults, true);
 
     var householdChildren = ["0 Children", "1 Child", "2 Children", "3 Children", "4 Children", "5 Children", "6+ Children"];
-    AddNumericDropDownField(formList, "householdSizeChildren", "How many household children?", householdChildren);
+    AddNumericDropDownField(formList, "householdSizeChildren", "How many children in your household?", householdChildren, true);
 
     var buttonsDiv = $("<div/>", {
       class: "zsg-g"
@@ -298,7 +300,7 @@ function addRadioButtonField(formList, name, label) {
   }).appendTo(fieldListElementDiv);
 }
 
-function addFormField(formList, name, label, placeholder) {
+function addFormField(formList, name, label, placeholder, canComeFromMint) {
   var formListElement = $("<li/>", {
     class: "zsg-form-field zsg-g"
   }).appendTo(formList);
@@ -326,12 +328,16 @@ function addFormField(formList, name, label, placeholder) {
     maxLength: "10"
   }).appendTo(fieldListElementDiv);
 
+  if(canComeFromMint) {
+    field.addClass("fromMint");
+  }
+
   field.keyup(function() {
     this.value = this.value.replace(/[^0-9\.]/g,'');
   });
 }
 
-function AddDropDownField(formList, name, label, selectValues) {
+function AddDropDownField(formList, name, label, selectValues, canComeFromMint) {
   var formListElement = $("<li/>", {
     class: "zsg-form-field zsg-g"
   }).appendTo(formList);
@@ -351,6 +357,7 @@ function AddDropDownField(formList, name, label, selectValues) {
   }).appendTo(formListElement);
 
   var field = $("<select/>", {
+    class: canComeFromMint ? "fromMint" : "",
     name: name,
     id: name
   }).appendTo(fieldListElementDiv);
@@ -372,7 +379,7 @@ function AddDropDownField(formList, name, label, selectValues) {
   });
 }
 
-function AddNumericDropDownField(formList, name, label, selectValues) {
+function AddNumericDropDownField(formList, name, label, selectValues, canComeFromMint) {
   var formListElement = $("<li/>", {
     class: "zsg-form-field zsg-g"
   }).appendTo(formList);
@@ -392,6 +399,7 @@ function AddNumericDropDownField(formList, name, label, selectValues) {
   }).appendTo(formListElement);
 
   var field = $("<select/>", {
+    class: canComeFromMint ? "fromMint" : "",
     name: name,
     id: name
   }).appendTo(fieldListElementDiv);
