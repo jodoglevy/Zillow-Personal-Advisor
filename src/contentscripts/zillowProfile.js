@@ -4,14 +4,38 @@ function modifyZillowProfile() {
   financialDataLink.click(function() {
     var containerElement = $("#profile-aboutme-editRegion").parent();
 
+    if(!$("#financial-data").length){
+      var financialDataSection = $("<div/>", {
+        id: 'financial-data',
+        style: 'display:none'
+      }).appendTo(containerElement);
+
+      setupPullFromMint(financialDataSection);
+    
+      setupFinancialForm(financialDataSection);
+    }
+    
+    $("#affordabilityDiv").hide();
+    $("#financial-data").slideDown();
+
+    
+  });
+
+  $("#profile-aboutme-content").append(financialDataLink);
+  
+}
+
+function setupPullFromMint(financialDataSection) {
+  
+
     if(!$("#mintButton").length) {
       var pullFromMintButton = $("<button/>", {
         id: "mintButton",
         class: "zsg-button_primary",
         text: "Pull Data From Mint"
-      }).appendTo(containerElement);
+      }).appendTo(financialDataSection);
 
-      $("<p/>").appendTo(containerElement);
+      $("<p/>").appendTo(financialDataSection);
 
       pullFromMintButton.click(function() {
         globalStorage.setItem("mintInfo", null);
@@ -32,19 +56,18 @@ function modifyZillowProfile() {
         }
 
         checkGrabbedMintInfo();
+
+        return false;
       });
     }
-    
-    
-    $("<div/>", {
-      id: 'financial-data'
-    }).appendTo(containerElement);
+}
+
+function setupFinancialForm(financialDataSection) {  
 
     var form = $("<form/>", {
       id: "financial-form",
-      class: "zsg-form auth-form profile-edit-form show-consumer",
-      style: "display:none"
-    }).appendTo("#financial-data");
+      class: "zsg-form auth-form profile-edit-form show-consumer"
+    }).appendTo(financialDataSection);
 
     var fieldSet = $("<fieldset></fieldset>").appendTo(form);
 
@@ -120,7 +143,7 @@ function modifyZillowProfile() {
 
       globalStorage.setItem('userInfo', userInfoStringified);
 
-      $("#financial-form").slideUp(400, function() {
+      financialDataSection.slideUp(400, function() {
         globalStorage.getItem("houseCosts", function(houseCosts) {
           if(houseCosts) {
             setAffordabilityNumbers(JSON.parse(houseCosts));
@@ -136,31 +159,30 @@ function modifyZillowProfile() {
         populateFormWithValues(JSON.parse(userInfo));
       }
     });
-
-    $("#financial-form").slideDown();
-  });
-
-  $("#profile-aboutme-content").append(financialDataLink);
-  
 }
 
 function setAffordabilityNumbers(info) {
   console.log(info);
   var containerElement = $("#profile-aboutme-editRegion").parent();
 
-  var affordabilityDiv = $("<div/>", {
-    id : "affordabilityDiv",
-    style : "display:none"
-  });
-  var comfortableHouseCost = $("<p>Comfortable House Cost: " + info.comfortableHouseCost + "</p>");
-  var maxHouseCost = $("<p>Max House Cost: " + info.maxHouseCost + "</p>");
+  if(!$("#affordabilityDiv").length) {
+    var affordabilityDiv = $("<div/>", {
+      id : "affordabilityDiv",
+      style : "display:none"
+    });
+    var comfortableHouseCost = $("<p id='comfortCost'>Comfortable House Cost: " + info.comfortableHouseCost + "</p>");
+    var maxHouseCost = $("<p id='maxCost'>Max House Cost: " + info.maxHouseCost + "</p>");
 
-  affordabilityDiv.append(comfortableHouseCost);
-  affordabilityDiv.append(maxHouseCost);
+    affordabilityDiv.append(comfortableHouseCost);
+    affordabilityDiv.append(maxHouseCost);
 
-  containerElement.append(affordabilityDiv);
-
-  affordabilityDiv.slideDown(700);
+    containerElement.append(affordabilityDiv);
+  } else {
+    $("#comfortCost").text("Comfortable House Cost: " + info.comfortableHouseCost);
+    $("#maxCost").text("Comfortable House Cost: " + info.maxHouseCost);
+  }
+  
+  $("#affordabilityDiv").slideDown(700);
 }
 
 function populateFormWithValues(info) {
