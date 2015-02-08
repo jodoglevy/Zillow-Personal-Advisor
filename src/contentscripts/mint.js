@@ -1,6 +1,6 @@
 function startMint() {
   globalStorage.getItem("grabFromMint", function(shouldGrabFromMint) {
-    if(shouldGrabFromMint) {
+    if(shouldGrabFromMint || true) {
       pullDataFromMint();
     }
   });
@@ -23,7 +23,7 @@ function pullDataFromMint() {
     }
 
     function updateLoginMessage() {
-      var grabbingInfoMessage = $("<p class='error' style='display: block; background: #0074e4; border: 3px solid #03427E'>Please log in to import your information into Zillow.</p>");
+      var grabbingInfoMessage = $("<p class='error' style='display: block; background: #0074e4; border: 3px solid rgba(0,0,0,0.2)'>Please log in to import your information into Zillow.</p>");
       var originalMessage = $("#authError");
 
       if(originalMessage.length > 0) {
@@ -43,7 +43,7 @@ function pullDataFromMint() {
   }
   else {
     function addIntegratingMessage() {
-      var grabbingInfoMessage = $("<p id='zillow-integration-msg' class='error' style='display: block; text-align:left; background: #0074e4; border: 3px solid #03427E'>Importing your information into Zillow, please wait...</p>");
+      var grabbingInfoMessage = $("<p id='zillow-integration-msg' class='error' style='display: block; text-align:left; background: #0074e4; border: 3px solid rgba(0,0,0,0.2)'>Importing your information into Zillow, please wait...</p>");
       var header = $("#body-header");
 
       if(header.length > 0) {
@@ -206,7 +206,7 @@ function pullDataFromMint() {
             globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
             globalStorage.setItem("grabFromMint", false);
 
-            window.close();
+            //window.close();
           });
         });
       });
