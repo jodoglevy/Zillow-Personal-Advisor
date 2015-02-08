@@ -78,30 +78,24 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
        id: "advice-ul"
    }).appendTo(adviceEntries);
 
-   var messageJSON = JSON.parse(qualifyMessage);
    var adviceListItem = $("<li/>").appendTo(adviceUL);
    var itemDiv = $("<div/>").appendTo(adviceListItem);
    itemDiv.attr("style", "white-space: normal; color: #000000");
+   if (qualifyMessage) {
+       var messageJSON = JSON.parse(qualifyMessage);
 
-   var hudInfo = $("<div/>").appendTo(itemDiv);
-   hudInfo.text(messageJSON.message);
+       var hudInfo = $("<div/>").appendTo(itemDiv);
+       hudInfo.text(messageJSON.message);
 
-   var tooltipButton = $("<a/>", {
-       href: messageJSON.url,
-       target: "_blank",
-       style: "outline-style: none",
-       class: "zsg-icon-circle-question"
-   }).appendTo(hudInfo);
-
-   //var tooltip = $("<div/>", {
-   //    class: "zsg-tooltip",
-   //    id: "hud-tip-filters"
-   //}).appendTo(itemDiv);
-
-   //copiedLabel.click(function () {
-   //     adviceFilterPane.dialog();
-   //});
-
-
+       var tooltipButton = $("<a/>", {
+           href: messageJSON.url,
+           target: "_blank",
+           style: "outline-style: none",
+           class: "zsg-icon-circle-question"
+       }).appendTo(hudInfo);
+   } else {
+       var hudInfo = $("<div/>").appendTo(itemDiv);
+       hudInfo.text("Sorry, you do not qualify for federal assistance.");
+   }
 }
 
