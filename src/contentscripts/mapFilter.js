@@ -12,11 +12,12 @@ function appendMapFilter(searchFilters) {
    copiedLabel.attr("id", "map-filter-menu");
    copiedLabel.appendTo(mapLegend);
    copiedLabel.find("div").attr("id", "map-label-div")
-       .text("Affordability Filter").css("color", "#00CC22");
+       .text("Personal Affordability Advice").css("color", "#00CC22");
 
    var mapFilterPane = $("<div/>", {
        class: "filter-pane",
        id: "map-filter-pane",
+       style: "width: 300px"
    }).appendTo(mapFilterMenu);
 
    var mapFilterUL = $("<ul/>", {
@@ -27,7 +28,7 @@ function appendMapFilter(searchFilters) {
 
    var mapListItem = $("<li/>").appendTo(mapFilterUL);
    var itemDiv = $("<div/>").appendTo(mapListItem);
-   var filterDropdown = $("<select id='filterDropdown'><option value='remove'>Remove houses</option><option value='replace'>Modify houses</option></select>").appendTo(itemDiv);
+   var filterDropdown = $("<select id='filterDropdown'><option value='none'>None</option><option value='remove'>Remove unafforable houses</option><option value='replace'>Classify houses by affordability</option></select>").appendTo(itemDiv);
    filterDropdown.change(function() {
     globalStorage.setItem("filterManipulationAction", JSON.stringify($(this).val()));
     reloadMap();

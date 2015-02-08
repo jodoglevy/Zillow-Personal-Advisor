@@ -34,8 +34,9 @@ chrome.webRequest.onBeforeRequest.addListener(
 
       // by default, repeat the request so we can modify it next time around
       var redirectUrl = details.url + "&forceRepeat";
+      var affordabilityFilterValue = localStorage.getItem("filterManipulationAction");
 
-      if(!responseRewriter[details.url]) {
+      if(!responseRewriter[details.url + "|" + affordabilityFilterValue]) {
         // call the request ourselves so we can modify it next time
         // its requested
 
@@ -52,7 +53,7 @@ chrome.webRequest.onBeforeRequest.addListener(
           .done(function(response) {
             // transform response
             rewriteZillowGetResultsResponse(response, function(transformedData) {
-              responseRewriter[details.url] = transformedData;
+              responseRewriter[details.url + "|" + affordabilityFilterValue] = transformedData;
             })  
           });
         }
@@ -61,7 +62,7 @@ chrome.webRequest.onBeforeRequest.addListener(
       else {
         console.log("transformed response is ready, rewriting response");
 
-        var forcedResponse = responseRewriter[details.url];
+        var forcedResponse = responseRewriter[details.url + "|" + affordabilityFilterValue];
         redirectUrl = "data:text/json;," + JSON.stringify(forcedResponse);
       }
 

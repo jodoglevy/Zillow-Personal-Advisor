@@ -1,12 +1,12 @@
 function reloadMap() {
-	var zoomInControl = $(".zoom-in");
+	var selectLotsLandElement = $("#hometype-land-top-filters-input");
 
-	if(zoomInControl.length > 0) {
-  	zoomInControl.click();
+	if(selectLotsLandElement.length > 0) {
+  	selectLotsLandElement.click();
 
-  	setTimeout(function() {
-  		$(".zoom-out").click();
-  	}, 1000);
+  	// setTimeout(function() {
+  	// 	selectLotsLandElement.click();
+  	// }, 1000);
  	}
   else {
   	setTimeout(reloadMap, 100);

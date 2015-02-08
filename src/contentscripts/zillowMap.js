@@ -66,7 +66,7 @@ function modifyZillowMap() {
         }
 
         adviceElement.append($("<div class='loan-calculator-label' style='color: #00cc22'>Zillow Personal Advisor</div>"));
-        adviceElement.append($("<strong class='hlc-output-fixed30'>Advise for home based on your financials:</strong><br />"));
+        adviceElement.append($("<strong class='hlc-output-fixed30'>Advice for home based on your financials:</strong><br />"));
         adviceElement.append($("<br /><span id='personal-advisor-advice-message'><span>Loading advice...  </span><img src='/static/images/zsg/loader-white.gif' /></span><br /><br /><br />"));
         adviceElement.append($("<div class='loan-calculator-label'>Description</div>"));
         
