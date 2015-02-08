@@ -145,6 +145,11 @@ function populateFormWithValues(info) {
   $("#totalLiquidAssets").val(info.totalLiquidAssets);
   $("#maritalStatus").val(info.maritalStatus);
   $("#monthlyHousingCost").val(info.monthlyHousingCost);
+  if(typeof info.profession !== 'undefined') {
+    if(info.profession === "Education") {
+      $("#isTeacher").val("true");
+    }
+  }
   if(typeof info.isTeacher !== 'undefined') {
     $("#isTeacher").val(info.isTeacher.toString());
   }
