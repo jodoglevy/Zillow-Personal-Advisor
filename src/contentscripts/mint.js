@@ -162,12 +162,52 @@ function pullDataFromMint() {
           mintInfo.monthlyIncome = Math.round((totalGrossIncomeLast5Months / 5));
           mintInfo.averageMonthlyLeftOver = Math.round((totalNetIncomeLast5Months / 5));
         
-          console.log(mintInfo);
-            
-          globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
-          globalStorage.setItem("grabFromMint", false);
+          // get average mortgage / rent over last 5 months
+          $.ajax({
+            url: "https://wwws.mint.com/app/getJsonData.xevent?accountId=0&filterType=cash&queryNew=&offset=0&comparableType=8&acctChanged=T&task=transactions%2Ctxnfilters&rnd=733&query=category%3D%3A+Mortgage+%26+Rent&typeFilter=cash&typeSort=2"
+          })
+          .done(function(response) {
+            var totalMortgageAndRentLast6Months = 0;
+            var now = new Date();
+            var sixMonthsAgoDateNum = now.getTime() - (6 * 30 * 24 * 60 * 60 * 1000)
 
-          window.close();
+            response.set[0].data.forEach(function(item, index) {
+              var paidDate = new Date(item.date);
+              var numPayments = 0;
+
+              if(item.date.indexOf("/") !== -1) {
+                // date is in 'xx/xx/xx' form, it was parsed correctly
+              }
+              else {
+                // date is in 'Jan 8' form, set correct year since that wasn't given
+                // this form is only done for recent transactions
+
+                if(paidDate.getMonth() > now.getMonth()) {
+                  paidDate.setYear(now.getFullYear() - 1);
+                }
+                else {
+                  paidDate.setYear(now.getFullYear());
+                }
+              }
+              
+              // ignore older than 6 months since it is not complete
+              if(paidDate.getTime() > sixMonthsAgoDateNum) {
+                var pricePaid = parseFloat(item.amount.replace(/\$|,/g,""));
+                
+                numPayments ++;
+                totalMortgageAndRentLast6Months += pricePaid;
+              } 
+            });
+
+            mintInfo.monthlyHousingCost = Math.round((totalMortgageAndRentLast6Months / 5));
+
+            console.log(mintInfo);
+            
+            globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
+            globalStorage.setItem("grabFromMint", false);
+
+            window.close();
+          });
         });
       });
     }
