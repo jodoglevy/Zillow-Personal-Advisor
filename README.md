@@ -61,17 +61,17 @@ We made use of:
 Mint data integration:
 ![Mint Integration](https://github.com/jodoglevy/HackHousingProject/blob/master/images/MintIntegration.png)
 
-Mint profile data:
+Mint profile data on Zillow.com:
 
 ![Mint Profile Data](https://github.com/jodoglevy/HackHousingProject/blob/master/images/MintProfileData.png)
 
-Nearby Active Housing Counseling Agencies:
+Nearby Active Housing Counseling Agencies on Zillow.com:
 ![Nearby Active Housing Counseling Agencies](https://github.com/jodoglevy/HackHousingProject/blob/master/images/NearbyAdvisors.png)
 
-Filter properties by affordability based on personal finance data:
+Filter properties by affordability based on personal finance data on Zillow.com:
 ![Filter by affordability](https://github.com/jodoglevy/HackHousingProject/blob/master/images/FilterByAffordability.png)
 
-House loan estimate based on personal finance data:
+House loan estimate based on personal finance data on Zillow.com:
 ![House Loan Estimate](https://github.com/jodoglevy/HackHousingProject/blob/master/images/HouseLoanEstimate.png)
 
 ## License
