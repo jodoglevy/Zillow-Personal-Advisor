@@ -15,7 +15,7 @@
             "*://*.mint.com/*",
             "*://*.zillow.com/*"
         ],
-        "js": ["jquery-1.11.1.min.js", "mint.js", "zillow.js", "hackHousingProject.js"],
+        "js": ["shared/jquery-1.11.1.min.js", "contentscripts/mint.js", "contentscripts/zillow.js", "contentscripts/hackHousingProject.js"],
         "run_at":"document_start"
     }],
     "web_accessible_resources": [
@@ -25,7 +25,7 @@
         "default_title": "HackHousingProject"
     },
     "background": {
-        "scripts": ["jquery-1.11.1.min.js", "background.js"]
+        "scripts": ["shared/jquery-1.11.1.min.js", "background/background.js", "background/rewriteResponse.js"]
     },
     "permissions": [
         "webRequest",
