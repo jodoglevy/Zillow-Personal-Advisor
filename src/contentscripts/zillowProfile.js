@@ -145,9 +145,15 @@ function populateFormWithValues(info) {
   $("#totalLiquidAssets").val(info.totalLiquidAssets);
   $("#maritalStatus").val(info.maritalStatus);
   $("#monthlyHousingCost").val(info.monthlyHousingCost);
-  $("#isTeacher").val(info.isTeacher.toString());
-  $("#isVeteran").val(info.isVeteran.toString());
-  $("#isDisabled").val(info.isDisabled.toString());
+  if(typeof info.isTeacher !== 'undefined') {
+    $("#isTeacher").val(info.isTeacher.toString());
+  }
+  if(typeof info.isVeteran !== 'undefined') {
+    $("#isVeteran").val(info.isVeteran.toString());
+  }
+  if(typeof info.isDisabled !== 'undefined'){
+    $("#isDisabled").val(info.isDisabled.toString());
+  }
   $("#householdSizeAdults").val(info.householdSizeAdults);
   $("#householdSizeChildren").val(info.householdSizeChildren);
 }
