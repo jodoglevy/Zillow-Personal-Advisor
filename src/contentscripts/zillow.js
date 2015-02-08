@@ -120,7 +120,7 @@ function recommendationForPrice(houseCost, callback) {
 						"monthlyPayment": 0,
 						"interestRate": 0,
 						"loanAmount": 0,
-						"message": "Could not find a bank to give you the necessary loan"
+						"message": "Could not find a bank to give you the necessary loan. Given your current financial standings it may be difficult to purchase this home."
 					}
 					callback(recommendation);
 				} else {
@@ -148,7 +148,7 @@ function recommendationForPrice(houseCost, callback) {
 						"monthlyPayment": 0,
 						"interestRate": 0,
 						"loanAmount": 0,
-						"message": "Could not find a bank to give you the necessary loan."
+						"message": "Could not find a bank to give you the necessary loan. Given your current financial standings it may be difficult to purchase this home."
 					}
 					callback(recommendation);
 				} else {
@@ -176,7 +176,7 @@ function recommendationForPrice(houseCost, callback) {
 						"monthlyPayment": 0,
 						"interestRate": 0,
 						"loanAmount": 0,
-						"message": "Could not find a bank to give you the necessary loan."
+						"message": "Could not find a bank to give you the necessary loan. Given your current financial standings it may be difficult to purchase this home."
 					}
 					callback(recommendation);
 				} else {
