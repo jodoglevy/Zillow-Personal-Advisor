@@ -7,7 +7,7 @@ function modifyZillowMap() {
 
   var lastUrl = "";
   var lastHomePrice = 0;
-  
+
   function monitorUrlChange() {
     // url changes when the long / lat region changes, so monitor url to know when
     // region being looked at changes
@@ -35,6 +35,12 @@ function modifyZillowMap() {
         reloadMap();
       }
       else {
+        localStorage.setItem("coords", JSON.stringify({
+            "x_min": longitude2,
+            "x_max": longitude1,
+            "y_min": latitude2,
+            "y_max": latitude1
+        }));
         console.log(state);
         console.log(longitude1);
         console.log(latitude1);
@@ -69,7 +75,7 @@ function modifyZillowMap() {
         adviceElement.append($("<strong class='hlc-output-fixed30'>Advice for home based on your financials:</strong><br />"));
         adviceElement.append($("<br /><span id='personal-advisor-advice-message'><span>Loading advice...  </span><img src='/static/images/zsg/loader-white.gif' /></span><br /><br /><br />"));
         adviceElement.append($("<div class='loan-calculator-label'>Description</div>"));
-        
+
         if(adviceElementIsNew) {
           $("#home-value-wrapper").append(adviceElement);
         }

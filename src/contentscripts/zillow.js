@@ -26,17 +26,19 @@ function startZillow() {
     });
   }, 100);
 
-  function checkForSearchFilters() {
+  function checkForSearchFilters(qualifyMessage) {
         var searchFilters = $("#searchfilters");
         if(searchFilters) {
-            appendHUDFilter(searchFilters);
             appendMapFilter(searchFilters);
+            appendAdviceFilter(searchFilters, qualifyMessage);
         }
         else {
-            setTimeout(checkForSearchFilters, 100);
+            setTimeout(checkForSearchFilters(qualifyMessage), 100);
         }
   }
-  checkForSearchFilters();
+  doIqualify("WA", function(qualifyMessage) {
+      checkForSearchFilters(qualifyMessage)
+  });
 
   if(window.location.pathname.toLowerCase().indexOf("profile.htm") !== -1) {
 		modifyZillowProfile();
