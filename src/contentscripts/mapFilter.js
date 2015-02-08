@@ -32,5 +32,12 @@ function appendMapFilter(searchFilters) {
     globalStorage.setItem("filterManipulationAction", JSON.stringify($(this).val()));
     reloadMap();
    });
-   filterDropdown.change();
+
+   globalStorage.getItem("filterManipulationAction", function(filterManipulationAction) {
+    if(filterManipulationAction !== 'undefined') {
+      filterDropdown.val(JSON.parse(filterManipulationAction));
+    }
+    filterDropdown.change();
+   });
+
 }

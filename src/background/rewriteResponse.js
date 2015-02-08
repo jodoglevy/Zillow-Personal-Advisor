@@ -1,8 +1,11 @@
 function rewriteZillowGetResultsResponse(data, callback) {
-  //var manipulationAction = "remove"; // "none", replace", "remove"
+  var manipulationAction = "remove"; // default
 
   var houseCosts = localStorage.getItem("houseCosts");
-  var manipulationAction = JSON.parse(localStorage.getItem("filterManipulationAction"));
+  var filterManipulationAction = localStorage.getItem("filterManipulationAction");
+  if(filterManipulationAction !== 'undefined'){
+    manipulationAction = JSON.parse(filterManipulationAction);
+  }
   console.log("Manipulation Action: " + manipulationAction);
     if(houseCosts) {
       var houseCostsParsed = JSON.parse(houseCosts);
@@ -41,8 +44,6 @@ function rewriteZillowGetResultsResponse(data, callback) {
             }
             break;
           case "remove" :
-            console.log("House price: " + housePrice);
-            console.log("Max House Cost: " + maxHouseCost);
             if(housePrice < maxHouseCost) {
               newHousesArray.push(house);
             }
@@ -50,10 +51,6 @@ function rewriteZillowGetResultsResponse(data, callback) {
       });
 
       if(manipulationAction === "remove"){
-        console.log("NewHouses");
-        console.log(newHousesArray);
-        console.log("data.map.properties");
-        console.log(data.map.properties);
         data.map.properties = newHousesArray;
       }
     }
