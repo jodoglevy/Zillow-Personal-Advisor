@@ -12,7 +12,7 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
    copiedLabel.attr("id", "advice-label");
    copiedLabel.appendTo(adviceLegend);
    copiedLabel.find("div").attr("id", "advice-label-div")
-       .text("Advice").css("color", "#00CC22");
+       .text("HUD Advice").css("color", "#00CC22");
 
    var adviceFilterPane = $("<div/>", {
        class: "filter-pane",
@@ -24,10 +24,9 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
        adviceFilterPane.dialog({
            width : 800,
            height: 300,
+           title: "Active Housing Counseling Agencies Nearby",
 
        });
-       var advisorTableLI = $("<li/>", {id: "advisorLI"}).appendTo($("#advice-ul"));
-       var advisorTable = $("<table/>", {id: "advisorTable", style: "color: black; font-size: 11.5px"}).appendTo($("#advisorLI"));
        var xmin, ymin, xmax, ymax;
        var coordinates = JSON.parse(localStorage.getItem("coords"));
        if (coordinates) {
@@ -41,9 +40,15 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
            ymin = 47.625;
            ymax = 47.629;
        }
-       loadActiveHousingAgencyFromEnvelope(xmin, xmax, ymin, ymax, 100,
+       loadActiveHousingAgencyFromEnvelope(xmin, xmax, ymin, ymax, 50,
                function success(data) {
                    var dataJSON = JSON.parse(data);
+                   var tableDesc = $("<li/>", {id: "tableDesc"}).appendTo($("#advice-ul"));
+                   var descText = $("<div/>").appendTo(tableDesc);
+                   descText.text("There are " + dataJSON.features.length + " advisors nearby:");
+                   var advisorTableLI = $("<li/>", {id: "advisorLI"}).appendTo($("#advice-ul"));
+                   var advisorTable = $("<table/>", {id: "advisorTable", style: "color: black; font-size: 11.5px"}).appendTo($("#advisorLI"));
+
                    dataJSON.features.forEach(function(item) {
                        var tableRow = $("<tr/>").appendTo($("#advisorTable"));
                        var agencyName = $("<td/>").appendTo(tableRow);
