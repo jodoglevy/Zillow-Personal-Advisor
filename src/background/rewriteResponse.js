@@ -1,40 +1,50 @@
 function rewriteZillowGetResultsResponse(data, callback) {
   var manipulationAction = "replace"; // "none", replace", "remove"
-  var affordabilityPreference = 0.15; // Slider controls percentage
 
-  data.map.properties.forEach(function(house) {
-    var housePriceAsString = house[3];
-    var housePrice = null;
-    var priceLimit = 500 * (1 + affordabilityPreference);
-    
-    housePriceAsString = housePriceAsString.replace(/\$/g, '');
+  var houseCosts = localStorage.getItem("houseCosts");
+    if(houseCosts) {
+      var houseCostsParsed = JSON.parse(houseCosts);
+      var comfortableHouseCost = houseCostsParsed.comfortableHouseCost/1000;
+      var maxHouseCost = houseCostsParsed.maxHouseCost/1000;
 
-    // if its above a million it will be displayed as $2.5M, so look for that
-    if(housePriceAsString.indexOf("M") !== -1) {
-      housePrice = parseInt(housePriceAsString);
-      housePrice = housePrice * 1000;
-    }
-    else {
-      housePrice = parseInt(housePriceAsString);
-    }
+      data.map.properties.forEach(function(house) {
+        var housePriceAsString = house[3];
+        var housePrice = null;
+        
+        housePriceAsString = housePriceAsString.replace(/\$/g, '');
 
-    switch(manipulationAction) {
-      case "none" : break;
-      case "replace" :
-        if(housePrice > priceLimit) {
-          house[3] = "Too much";
-          house[4] = 1;
+        // if its above a million it will be displayed as $2.5M, so look for that
+        if(housePriceAsString.indexOf("M") !== -1) {
+          housePrice = parseInt(housePriceAsString);
+          housePrice = housePrice * 1000;
         }
         else {
-          house[5] = 2;
+          housePrice = parseInt(housePriceAsString);
         }
-        break;
-      case "remove" :
-        if(housePrice > priceLimit) {
-          house.shouldDelete = true;
+
+        switch(manipulationAction) {
+          case "none" : break;
+          case "replace" :
+            if(housePrice > maxHouseCost) {
+              house[3] = "Too much";
+              house[4] = 1;
+            } else if(housePrice > comfortableHouseCost) {
+              house[3] = "Stretch " + house[3];
+              house[4] = 3;
+            }
+            else {
+              house[5] = 2;
+            }
+            break;
+          case "remove" :
+            if(housePrice > priceLimit) {
+              house.shouldDelete = true;
+            }
         }
+      });
     }
-  });
+
+  
 
   callback(data);
 }

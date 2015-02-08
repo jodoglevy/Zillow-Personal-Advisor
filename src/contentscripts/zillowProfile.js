@@ -196,6 +196,8 @@ function populateFormWithValues(info) {
   if(typeof info.profession !== 'undefined') {
     if(info.profession === "Education") {
       $("#isTeacher").val("true");
+    } else {
+      $("#isTeacher").val("false");
     }
   }
   if(typeof info.isTeacher !== 'undefined') {
