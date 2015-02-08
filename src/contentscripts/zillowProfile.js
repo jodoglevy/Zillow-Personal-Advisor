@@ -170,13 +170,49 @@ function setAffordabilityNumbers(info) {
       id : "affordabilityDiv",
       style : "display:none"
     });
-    var comfortableHouseCost = $("<p id='comfortCost'>Comfortable House Cost: " + info.comfortableHouseCost + "</p>");
-    var maxHouseCost = $("<p id='maxCost'>Max House Cost: " + info.maxHouseCost + "</p>");
-
+    var comfortableHouseCost = $("<input id='comfortCost' type='text' style='width:100px'/>");
     affordabilityDiv.append(comfortableHouseCost);
+    affordabilityDiv.append("<p>Comfortable House Cost</p>");
+    var comfortableHouseSlider = $("<div/>", {
+      id : "comfortableHouseSlider"
+    });
+    affordabilityDiv.append(comfortableHouseSlider);
+
+    affordabilityDiv.append("<p/>");
+    affordabilityDiv.append("<p/>");
+
+    var maxHouseCost = $("<input id='maxCost' type='text' style='width:100px'/>");
     affordabilityDiv.append(maxHouseCost);
+    affordabilityDiv.append("<p>Max House Cost</p>");
+
+    var maxHouseSlider = $("<div/>", {
+      id : "maxHouseSlider"
+    });
+    affordabilityDiv.append(maxHouseSlider);
 
     containerElement.append(affordabilityDiv);
+
+    comfortableHouseSlider.slider({
+      value: parseInt(info.comfortableHouseCost),
+      min: 0,
+      max: 1000000,
+      step: 10000,
+      slide: function( event, ui ) {
+        comfortableHouseCost.val("$" + ui.value );
+      }
+    });
+    comfortableHouseCost.val("$" + comfortableHouseSlider.slider("value"));
+
+    maxHouseSlider.slider({
+      value: parseInt(info.maxHouseCost),
+      min: 0,
+      max: 1000000,
+      step: 10000,
+      slide: function( event, ui ) {
+        maxHouseCost.val("$" + ui.value );
+      }
+    });
+    maxHouseCost.val("$" + maxHouseSlider.slider("value"));
   } else {
     $("#comfortCost").text("Comfortable House Cost: " + info.comfortableHouseCost);
     $("#maxCost").text("Comfortable House Cost: " + info.maxHouseCost);

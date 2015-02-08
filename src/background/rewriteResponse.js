@@ -33,6 +33,7 @@ function rewriteZillowGetResultsResponse(data, callback) {
               house[4] = 3;
             }
             else {
+              house[4] = 2;
               house[5] = 2;
             }
             break;
