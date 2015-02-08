@@ -3,8 +3,10 @@ function rewriteZillowGetResultsResponse(data, callback) {
 
   var houseCosts = localStorage.getItem("houseCosts");
   var filterManipulationAction = localStorage.getItem("filterManipulationAction");
-  if(filterManipulationAction !== 'undefined'){
+  if(filterManipulationAction){
     manipulationAction = JSON.parse(filterManipulationAction);
+  } else {
+    manipulationAction = "none";
   }
   console.log("Manipulation Action: " + manipulationAction);
     if(houseCosts) {
@@ -16,7 +18,7 @@ function rewriteZillowGetResultsResponse(data, callback) {
       data.map.properties.forEach(function(house) {
         var housePriceAsString = house[3];
         var housePrice = null;
-        
+
         housePriceAsString = housePriceAsString.replace(/\$/g, '');
 
         // if its above a million it will be displayed as $2.5M, so look for that
@@ -55,7 +57,7 @@ function rewriteZillowGetResultsResponse(data, callback) {
       }
     }
 
-  
+
 
   callback(data);
 }
