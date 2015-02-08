@@ -57,6 +57,23 @@ We made use of:
 	* Enable the extension
 	* Go to Zillow profile page to integrate with Mint, and Zillow map page
 
+## Screenshots
+Mint data integration:
+![Mint Integration](https://github.com/jodoglevy/HackHousingProject/blob/master/images/MintIntegration.png)
+
+Mint profile data:
+
+![Mint Profile Data](https://github.com/jodoglevy/HackHousingProject/blob/master/images/MintProfileData.png)
+
+Nearby Active Housing Counseling Agencies:
+![Nearby Active Housing Counseling Agencies](https://github.com/jodoglevy/HackHousingProject/blob/master/images/NearbyAdvisors.png)
+
+Filter properties by affordability based on personal finance data:
+![Filter by affordability](https://github.com/jodoglevy/HackHousingProject/blob/master/images/FilterByAffordability.png)
+
+House loan estimate based on personal finance data:
+![House Loan Estimate](https://github.com/jodoglevy/HackHousingProject/blob/master/images/HouseLoanEstimate.png)
+
 ## License
 
 Our code is licensed under the MIT License. Pull requests will be accepted to this repo, pending review and approval.
