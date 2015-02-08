@@ -41,6 +41,10 @@ function startZillow() {
 	var interestRate = getInterestRate(comfortableHouseCost, function(interestRate) {
 			console.log("interestRate: " + interestRate);
 	});
+	
+	var doIQualify = doIqualify("WA", function(interestRate) {
+		console.log("Do I Qualify: " + interestRate);
+	});
     });
 
   if(window.location.pathname.indexOf("Profile.htm") !== -1) {
@@ -48,13 +52,14 @@ function startZillow() {
   }
 }
 
-function doIqualify(state) {
+function doIqualify(state, callback) {
 	globalStorage.getItem("userInfo", function(value) {
+
 		switch(state) {
 			case "WA":
 			case "Washington":
 			case "washington":
-				return doIQualifyInWashington(value);
+				callback(doIQualifyInWashington(value));
 				break;
 			default:
 				break;
@@ -62,7 +67,8 @@ function doIqualify(state) {
 	});
 }
 
-function doIqualifyInWashington(value) {
+function doIQualifyInWashington(value) {
+
 	var parsedJSON = JSON.parse(value);
 	var isVeteran = parsedJSON.isVeteran;
 	var isTeacher = parsedJSON.isTeacher;
@@ -73,31 +79,44 @@ function doIqualifyInWashington(value) {
 	var monthlyIncome = parsedJSON.monthlyIncome;
 	var totalIncome = monthlyIncome * 12;
 
-	if (totalIncome < 97000)
+	if (totalIncome < 97000) {
 		return true;
-	if (isVeteran && totalIncome < 88000)
+	}
+	if (isVeteran && totalIncome < 88000) {
 		return true;
-	if (isTeacher && totalIncome < 88000)
+	}
+	if (isTeacher && totalIncome < 88000) {
 		return true;
-	if (isDisabled && totalIncome < 88000)
+	}
+	if (isDisabled && totalIncome < 88000) {
 		return true;
-	if (totalInHousehold == 1 && totalIncome < 44000)
+	}
+	if (totalInHousehold == 1 && totalIncome < 44000) {
 		return true;
-	if (totalInHousehold == 2 && totalIncome < 51000)
+	}
+	if (totalInHousehold == 2 && totalIncome < 51000) {
 		return true;
-	if (totalInHousehold == 3 && totalIncome < 57000)
+	}
+	if (totalInHousehold == 3 && totalIncome < 57000) {
 		return true;
-	if (totalInHousehold == 4 && totalIncome < 63000)
+	}
+	if (totalInHousehold == 4 && totalIncome < 63000) {
 		return true;
-	if (totalInHousehold == 5 && totalIncome < 69000)
+	}
+	if (totalInHousehold == 5 && totalIncome < 69000) {
 		return true;
-	if (totalInHousehold == 6 && totalIncome < 74000)
+	}
+	if (totalInHousehold == 6 && totalIncome < 74000) {
 		return true;
-	if (totalInHousehold == 7 && totalIncome < 79000)
+	}
+	if (totalInHousehold == 7 && totalIncome < 79000) {
 		return true;
-	if (totalInHousehold == 8 && totalIncome < 84000)
+	}
+	if (totalInHousehold == 8 && totalIncome < 84000) {
 		return true;
-return false;
+	}
+
+	return false;
 }
 
 function getInterestRate(comfortableHouseCost, callback) {
