@@ -1,7 +1,7 @@
 {
-    "name":"HackHousingProject",
-    "version":"0.1",
-    "description":"HackHousingProject",
+    "name":"Zillow Personal Advisor",
+    "version":"0.5",
+    "description":"Zillow Personal Advisor",
     "manifest_version": 2,
     "incognito": "spanning",
     "icons": {
@@ -23,7 +23,7 @@
         "images/app/*"
     ],
     "page_action":{
-        "default_title": "HackHousingProject"
+        "default_title": "Zillow Personal Advisor"
     },
     "background": {
         "scripts": ["shared/jquery-1.11.1.min.js", "background/background.js", "background/rewriteResponse.js"]
