@@ -208,40 +208,88 @@ function doIQualifyInWashington(value) {
 	var totalIncome = monthlyIncome * 12;
 
 	if (totalIncome < 97000) {
-		return true;
+		var result = {
+			"message" : "You have qualified for the Home Advantage Loan because your yearly income is below 97000.",
+			"url": "http://www.wshfc.org/buyers/HomeAdvantagedpa.htm"
+		}
+		return JSON.stringify(result);
 	}
 	if (isVeteran && totalIncome < 88000) {
-		return true;
+		var result = {
+			"message" : "You have qualified for the House Key Veterans downpayment assistance loan program because you are a veteran and your yearly income is below $88,200.",
+			"url": "http://www.wshfc.org/buyers/keyveterans.htm"
+		}
+		return JSON.stringify(result);
 	}
 	if (isTeacher && totalIncome < 88000) {
-		return true;
+		var result = {
+			"message" : "You have qualified for the House Key Shools downpayment assistance loan program because you are a teacher and your yearly income is below $88,200.",
+			"url": "http://www.wshfc.org/buyers/keyschools.htm"
+		}
+		return JSON.stringify(result);
 	}
 	if (isDisabled && totalIncome < 88000) {
-		return true;
+		var result = {
+			"message" : "You have qualified for the Home Choice downpayment assistance loan program because you or one of your family members who you are living with has a disability and your yearly income is below $88,200.",
+			"url": "http://www.wshfc.org/buyers/homechoice.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 1 && totalIncome < 44000) {
-		return true;
+	if (totalInHousehold == 1 && totalIncome < 44750) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 1 with an income below 44,750. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 2 && totalIncome < 51000) {
-		return true;
+	if (totalInHousehold == 2 && totalIncome < 51150) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 2 with an income below 51,150. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 3 && totalIncome < 57000) {
-		return true;
+	if (totalInHousehold == 3 && totalIncome < 57550) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 3 with an income below 57,550. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 4 && totalIncome < 63000) {
-		return true;
+	if (totalInHousehold == 4 && totalIncome < 63900) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 4 with an income below 63,900. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 5 && totalIncome < 69000) {
-		return true;
+	if (totalInHousehold == 5 && totalIncome < 69050) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 5 with an income below 69,050. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 6 && totalIncome < 74000) {
-		return true;
+	if (totalInHousehold == 6 && totalIncome < 74150) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 6 with an income below 74,150. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 7 && totalIncome < 79000) {
-		return true;
+	if (totalInHousehold == 7 && totalIncome < 79250 ) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 7 with an income below 79,250 . If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
-	if (totalInHousehold == 8 && totalIncome < 84000) {
-		return true;
+	if (totalInHousehold == 8 && totalIncome < 84350) {
+		var result = {
+			"message" : "You have qualified for the Seattle downpayment assistance loan because you live in a household of 8 with an income below 84,350. If you are looking for homes in Seattle, this link may help you with your down payment.",
+			"url": "http://www.wshfc.org/buyers/Seattle.htm"
+		}
+		return JSON.stringify(result);
 	}
 
 	return false;
