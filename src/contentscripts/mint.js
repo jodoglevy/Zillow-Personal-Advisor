@@ -1,9 +1,12 @@
 function startMint() {
-  
-  if(!(globalStorage.getItem("grabFromMint") || true)) {
-    return;
-  }
+  globalStorage.getItem("grabFromMint", function(shouldGrabFromMint) {
+    if(shouldGrabFromMint) {
+      pullDataFromMint();
+    }
+  });
+}
 
+function pullDataFromMint() {
   if(window.location.pathname.indexOf("overview.event") === -1) {
     
     function monitorUrlChange() {
@@ -162,6 +165,8 @@ function startMint() {
           console.log(mintInfo);
             
           globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
+          globalStorage.setItem("grabFromMint", false);
+
           window.close();
         });
       });
@@ -169,5 +174,5 @@ function startMint() {
     else {
       startMint();
     }
-  }, 10000)
+  }, 10000);
 }
