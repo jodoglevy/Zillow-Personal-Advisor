@@ -72,7 +72,7 @@ function calculateCostRange() {
 	var monthlyHousingCost = parsedJSON.monthlyHousingCost;
 	var averageMonthlyLeftOver = parsedJSON.averageMonthlyLeftOver;
 
-	var interestRate = .04; // Need to calculate this but currently hard code to 4%
+	var interestRate = .045; // Need to calculate this but currently hard code to 4%
 	var mortgagePeriod = 360; // Assume 30 year fixed
 	var c = interestRate/12;
 
