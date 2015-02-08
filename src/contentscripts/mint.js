@@ -1,6 +1,6 @@
 function startMint() {
   globalStorage.getItem("grabFromMint", function(shouldGrabFromMint) {
-    if(shouldGrabFromMint || true) {
+    if(shouldGrabFromMint) {
       pullDataFromMint();
     }
   });
@@ -206,7 +206,7 @@ function pullDataFromMint() {
             globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
             globalStorage.setItem("grabFromMint", false);
 
-            //window.close();
+            window.close();
           });
         });
       });
