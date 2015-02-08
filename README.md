@@ -8,7 +8,7 @@ The purpose of Zillow Personal Advisor is to provide Zillow users with a more pe
 
 This application was developed February 6-8th, 2015 for the Hack Housing Zillow Hackathon.
 
-Our app is live at https://chrome.google.com/webstore/detail/zillow-personal-advisor/ggkbabbeajcoacmcgobollpffemnkkll.
+Our app is live at https://chrome.google.com/webstore/detail/zillow-personal-advisor/ggkbabbeajcoacmcgobollpffemnkkll. Screenshots are here too. To install the app, just click on the "+ Free" button" and then go to Zillow.com. We integrate with the Zillow profile page and map page.
 
 ## Challenge and Approach
 
