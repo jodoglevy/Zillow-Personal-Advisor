@@ -106,12 +106,65 @@ function startMint() {
         mintInfo.householdSizeAdults = householdSizeAdults;
         mintInfo.householdSizeChildren = householdSizeChildren;
 
-        console.log(mintInfo);
-        globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
+        // get average net and gross income over last 5 months
+        var currentDate = new Date();
+        var sixMonthsAgoDate = new Date();//.setMonth(currentDate.getMonth() – 6);
+        var csrfToken = sessionStorage.getItem("CSRF");
+        
+        var netIncomeSearchQuery = {
+          "reportType": "NI",
+          "chartType": "P",
+          "comparison": "",
+          "matchAny": true,
+          "terms": [],
+          "accounts" :{
+            "groupIds": ["AA"],
+            "accountIds": []
+          },
+          "dateRange": {
+            "period": {
+              "label": "Last 6 months",
+              "value": "L6M"
+            },
+            "start": (sixMonthsAgoDate.getMonth() + 1) + "/" + sixMonthsAgoDate.getDate() + "/" + sixMonthsAgoDate.getFullYear(),
+            "end": (currentDate.getMonth() + 1) + "/" + currentDate.getDate() + "/" + currentDate.getFullYear()
+          },
+          "drilldown": null,
+          "categoryTypeFilter": "all"
+        }; 
 
-        window.close()
+        $.ajax({
+          type: "POST",
+          data: {
+            token: csrfToken,
+            searchQuery: JSON.stringify(netIncomeSearchQuery)
+          },
+          url: "https://wwws.mint.com/trendData.xevent"
+        })
+        .done(function(response) {
+          var totalGrossIncomeLast5Months = 0;
+          var totalNetIncomeLast5Months = 0;
+          
+          response.trendList.forEach(function(item, index) {
+            // ignore latest month since it is not complete
+            if(index < 5) {
+              var income = item[0].value;
+              var expense = item[1].value;
+
+              totalNetIncomeLast5Months += (income + expense);
+              totalGrossIncomeLast5Months += income;
+            }
+          });
+
+          mintInfo.monthlyIncome = Math.round((totalGrossIncomeLast5Months / 5));
+          mintInfo.averageMonthlyLeftOver = Math.round((totalNetIncomeLast5Months / 5));
+        
+          console.log(mintInfo);
+            
+          globalStorage.setItem("mintInfo", JSON.stringify(mintInfo));
+          window.close();
+        });
       });
-
     }
     else {
       startMint();
