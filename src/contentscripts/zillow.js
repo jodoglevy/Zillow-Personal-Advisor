@@ -8,7 +8,7 @@ function startZillow() {
     });
   }, 100);
 
-    globalStorage.getItem("mintInfo", function(value) {
+    globalStorage.getItem("userInfo", function(value) {
 	console.log("Value: " + value);
 
 	var parsedJSON = JSON.parse(value);
