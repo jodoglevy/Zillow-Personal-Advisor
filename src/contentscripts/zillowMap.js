@@ -89,7 +89,7 @@ function modifyZillowMap() {
             recommendationMessage = "Based on your current liquid assets, we recommend a <strong>" + recommendation.percentage + "%</strong> down payment, which will result in an average <strong>" + recommendation.interestRate.toFixed(2) + "%</strong> interest rate and a <strong>$" + recommendation.monthlyPayment.toFixed(2) + "</strong> monthly payment.";
           }
 
-          adviceElement.find("#personal-advisor-advice-message").empty().text(recommendationMessage);
+          adviceElement.find("#personal-advisor-advice-message").empty().html(recommendationMessage);
         });
       }
     }
