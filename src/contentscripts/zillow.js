@@ -240,7 +240,7 @@ function doIQualifyInWashington(value) {
 	var householdSizeChildren = parsedJSON.householdSizeChildren;
 	var totalInHousehold = householdSizeAdults+householdSizeChildren;
 	var monthlyIncome = parsedJSON.monthlyIncome;
-	var totalIncome = monthlyIncome * 12;
+	var totalIncome = monthlyIncome * 12 * 1.3;
 
 	if (totalIncome < 97000) {
 		var result = {

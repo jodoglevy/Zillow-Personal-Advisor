@@ -23,8 +23,8 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
    copiedLabel.click(function() {
        adviceFilterPane.dialog({
            width : 800,
-           height: 300,
-           title: "Active Housing Counseling Agencies Nearby",
+           maxHeight : 300,
+           title: "Active Housing Counseling Agencies",
 
        });
        var xmin, ymin, xmax, ymax;
@@ -40,6 +40,7 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
            ymin = 47.625;
            ymax = 47.629;
        }
+       if (qualifyMessage) {
        loadActiveHousingAgencyFromEnvelope(xmin, xmax, ymin, ymax, 50,
                function success(data) {
                    var dataJSON = JSON.parse(data);
@@ -66,6 +67,7 @@ function appendAdviceFilter(searchFilters, qualifyMessage) {
                            + item.properties.Agency_Address_Zip);
                    });
         });
+       }
    });
 
 
