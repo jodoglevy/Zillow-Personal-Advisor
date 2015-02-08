@@ -40,7 +40,7 @@ chrome.webRequest.onBeforeRequest.addListener(
         // its requested
 
         if(details.url.indexOf("forceRepeat") !== -1) {
-          console.log("tried repeating the request, still not ready. reloading page");
+          console.log("tried repeating the request, still not ready. reloading map");
           shouldReload = true;
         }
         else {

@@ -1,14 +1,39 @@
+function reloadMap() {
+	var zoomInControl = $(".zoom-in");
+
+	if(zoomInControl.length > 0) {
+  	zoomInControl.click();
+
+  	setTimeout(function() {
+  		$(".zoom-out").click();
+  	}, 200);
+ 	}
+  else {
+  	setTimeout(reloadMap, 100);
+	}
+}
+
 function startZillow() {
     
   setInterval(function() {
     chrome.runtime.sendMessage({"shouldReload": true}, function(shouldReload) {
       if(shouldReload) {
-        window.location.reload();
+        // force the requests to happen again by moving the map in and then
+        // back out to trick page into thinking there's been a change in what's
+        // being looked at and so data needs to be reloaded
+        reloadMap();
       }
     });
   }, 100);
 
-    globalStorage.getItem("userInfo", function(value) {
+  if(window.location.pathname.toLowerCase().indexOf("profile.htm") !== -1) {
+		modifyZillowProfile();
+  }
+  else if(window.location.pathname.toLowerCase().indexOf("/homes") !== -1) {
+		modifyZillowMap();
+  }
+
+  globalStorage.getItem("userInfo", function(value) {
 	console.log("Value: " + value);
 
 	var parsedJSON = JSON.parse(value);
@@ -53,10 +78,6 @@ function startZillow() {
 		console.log("Do I Qualify: " + interestRate);
 	});
     });
-
-  if(window.location.pathname.indexOf("Profile.htm") !== -1) {
-	modifyZillowProfile();
-  }
 }
 
 function doIqualify(state, callback) {

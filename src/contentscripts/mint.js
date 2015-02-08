@@ -7,14 +7,14 @@ function startMint() {
 }
 
 function pullDataFromMint() {
-  if(window.location.pathname.indexOf("overview.event") === -1) {
+  if(window.location.pathname.toLowerCase().indexOf("overview.event") === -1) {
     
     function monitorUrlChange() {
       // login page changes its url to overview page, but doesn't actually
       // load another page. look for that and if found act as if overview page
       // was loaded
 
-      if(window.location.pathname.indexOf("overview.event") !== -1) {
+      if(window.location.pathname.toLowerCase().indexOf("overview.event") !== -1) {
         startMint();
       }
       else {
