@@ -109,7 +109,7 @@ function recommendationForPrice(houseCost, callback) {
 		var totalLiquidAssets = parsedJSON.totalLiquidAssets;
 		var creditScore = parsedJSON.creditScore;
 		var monthlyIncome = parsedJSON.monthlyIncome;
-		var yearlyIncome = monthlyIncome*12*1.3;
+		var yearlyIncome = Math.round(monthlyIncome*12*1.3);
 
 		if (twentyPercent <= totalLiquidAssets) {
 			getInterestRate(houseCost, creditScore, yearlyIncome, Math.round(houseCost*.2), function(interestRate) {
@@ -121,7 +121,7 @@ function recommendationForPrice(houseCost, callback) {
 						"loanAmount": 0,
 						"message": "Could not find a bank to give you the necessary loan"
 					}
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				} else {
 					var c = interestRate /100 / 12;
 					var payment = (houseCost*.8*c)*Math.pow((1+c), 360) / (Math.pow((1+c), 360)-1);
@@ -135,7 +135,7 @@ function recommendationForPrice(houseCost, callback) {
 						"interestRate" : interestRate,
 						"loanAmount" : houseCost*.8
 					};
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				}
 			});
 		}
@@ -147,9 +147,9 @@ function recommendationForPrice(houseCost, callback) {
 						"monthlyPayment": 0,
 						"interestRate": 0,
 						"loanAmount": 0,
-						"message": "Could not find a bank to give you the necessary loan"
+						"message": "Could not find a bank to give you the necessary loan."
 					}
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				} else {
 					var c = interestRate /100 / 12;
 					var payment = (houseCost*.9*c)*Math.pow((1+c), 360) / (Math.pow((1+c), 360)-1);
@@ -163,7 +163,7 @@ function recommendationForPrice(houseCost, callback) {
 						"interestRate" : interestRate,
 						"loanAmount" : houseCost*.9
 					};
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				}
 			});
 		}
@@ -175,9 +175,9 @@ function recommendationForPrice(houseCost, callback) {
 						"monthlyPayment": 0,
 						"interestRate": 0,
 						"loanAmount": 0,
-						"message": "Could not find a bank to give you the necessary loan"
+						"message": "Could not find a bank to give you the necessary loan."
 					}
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				} else {
 					var c = interestRate /100 / 12;
 					var payment = (houseCost*.965*c)*Math.pow((1+c), 360) / (Math.pow((1+c), 360)-1);
@@ -191,7 +191,7 @@ function recommendationForPrice(houseCost, callback) {
 						"interestRate" : interestRate,
 						"loanAmount" : houseCost*.965
 					};
-					callback(JSON.stringify(recommendation));
+					callback(recommendation);
 				}
 			});
 		}
@@ -201,9 +201,9 @@ function recommendationForPrice(houseCost, callback) {
 				"monthlyPayment" : 0,
 				"interestRate" : 0,
 				"loanAmount" : 0,
-				"message": "dont buy the place"
+				"message": "You cannot afford the advised minimum 3.5% down payment. We recommend you don't consider this home for purchase."
 			};
-			callback(JSON.stringify(recommendation));
+			callback(recommendation);
 		}
 	});
 }
