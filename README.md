@@ -26,7 +26,7 @@ Our approach for satisfying this challenge was to:
     * Advice based on their finances and the area they are searching for homes in:
       * Provide federal aid plans for home loans they qualify for, and why
       * Provide contact information of nearby loan assistance agents (to location they are searching for homes) 
-    * Advice basedon their finances and a specific home they are viewing:
+    * Advice based on their finances and a specific home they are viewing:
       * Provide recommendations on specific homes
 
 ## Team Members
