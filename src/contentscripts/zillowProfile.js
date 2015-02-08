@@ -53,6 +53,7 @@ function modifyZillowProfile() {
     }).appendTo(fieldSet);
 
     addFormField(formList, "monthlyIncome", "Monthly Income", "Enter your monthly income in $US (e.g. 2000)");
+    addFormField(formList, "averageMonthlyLeftOver", "Monthly Net", "Enter your current monthly leftover money");
     addFormField(formList, "creditScore", "Credit Score", "Enter your credit score");
     addFormField(formList, "totalLiquidAssets", "Total Liquid Assets", "Enter your total liquid assets");
 
@@ -60,21 +61,17 @@ function modifyZillowProfile() {
     AddDropDownField(formList, "maritalStatus", "Marital Status", selectValues);
 
     addFormField(formList, "monthlyHousingCost", "Monthly Housing Cost", "Enter your current monthly house payment");
-    addFormField(formList, "averageMonthlyLeftOver", "Monthly Leftover Assets", "Enter your current monthly leftover money");
 
     var yesNoValues = ["Yes", "No"];
-    AddDropDownField(formList, "teacher", "Are you a teacher?", yesNoValues);
-    AddDropDownField(formList, "veteran", "Are you a veteran?", yesNoValues);
-    AddDropDownField(formList, "disabled", "Are you a disabled?", yesNoValues);
+    AddDropDownField(formList, "isTeacher", "Are you a teacher?", yesNoValues);
+    AddDropDownField(formList, "isVeteran", "Are you a veteran?", yesNoValues);
+    AddDropDownField(formList, "isDisabled", "Are you a disabled?", yesNoValues);
 
     var householdAdults = ["1 Adult", "2 Adults", "3 Adults", "4 Adults", "5 Adults", "6+ Adults"];
-    AddDropDownField(formList, "householdSizeAdults", "How many household adults?", householdAdults);
+    AddNumericDropDownField(formList, "householdSizeAdults", "How many household adults?", householdAdults);
 
     var householdChildren = ["0 Children", "1 Child", "2 Children", "3 Children", "4 Children", "5 Children", "6+ Children"];
-    AddDropDownField(formList, "householdSizeChildren", "How many household children?", householdChildren);
-    //addRadioButtonField(formList, "teacher", "Are you a teacher?");
-    //addRadioButtonField(formList, "veteran", "Are you a veteran?");
-    //addRadioButtonField(formList, "disabled", "Are you disabled?");
+    AddNumericDropDownField(formList, "householdSizeChildren", "How many household children?", householdChildren);
 
     var buttonsDiv = $("<div/>", {
       class: "zsg-g"
@@ -105,20 +102,17 @@ function modifyZillowProfile() {
 
     submitButton.click(function() {
       var formData = $("#financial-form").serializeArray();
-      var isTeacher = (formData[6].value === "Yes") ? true : false;
-      var isVeteran = (formData[7].value === "Yes") ? true : false;
-      var isDisabled = (formData[8].value === "Yes") ? true : false;
 
       var userInfo = {
         "monthlyIncome" : parseInt(formData[0].value),
-        "creditScore" : parseInt(formData[1].value),
-        "totalLiquidAssets" : parseInt(formData[2].value),
-        "maritalStatus" : formData[3].value,
-        "monthlyHousingCost" : parseInt(formData[4].value),
-        "averageMonthlyLeftOver" : parseInt(formData[5].value),
-        "isTeacher" : isTeacher,
-        "isVeteran" : isVeteran,
-        "isDisabled" : isDisabled,
+        "averageMonthlyLeftOver" : parseInt(formData[1].value),
+        "creditScore" : parseInt(formData[2].value),
+        "totalLiquidAssets" : parseInt(formData[3].value),
+        "maritalStatus" : formData[4].value,
+        "monthlyHousingCost" : parseInt(formData[5].value),
+        "isTeacher" : JSON.parse(formData[6].value),
+        "isVeteran" : JSON.parse(formData[7].value),
+        "isDisabled" : JSON.parse(formData[8].value),
         "householdSizeAdults" : parseInt(formData[9].value),
         "householdSizeChildren" : parseInt(formData[10].value)
       }
@@ -130,6 +124,12 @@ function modifyZillowProfile() {
       return false;
     });
 
+    globalStorage.getItem("userInfo", function(userInfo) {
+      if(userInfo) {
+        populateFormWithValues(JSON.parse(userInfo));
+      }
+    });
+
     $("#financial-form").slideDown();
   });
 
@@ -139,9 +139,17 @@ function modifyZillowProfile() {
 
 function populateFormWithValues(info) {
   console.log(info);
+  $("#monthlyIncome").val(info.monthlyIncome);
+  $("#averageMonthlyLeftOver").val(info.averageMonthlyLeftOver);
+  $("#creditScore").val(info.creditScore);
   $("#totalLiquidAssets").val(info.totalLiquidAssets);
   $("#maritalStatus").val(info.maritalStatus);
-  $("#creditScore").val(info.creditScore);
+  $("#monthlyHousingCost").val(info.monthlyHousingCost);
+  $("#isTeacher").val(info.isTeacher.toString());
+  $("#isVeteran").val(info.isVeteran.toString());
+  $("#isDisabled").val(info.isDisabled.toString());
+  $("#householdSizeAdults").val(info.householdSizeAdults);
+  $("#householdSizeChildren").val(info.householdSizeChildren);
 }
 
 function addRadioButtonField(formList, name, label) {
@@ -246,12 +254,54 @@ function AddDropDownField(formList, name, label, selectValues) {
   }).appendTo(formListElement);
 
   var field = $("<select/>", {
-    name: name
+    name: name,
+    id: name
+  }).appendTo(fieldListElementDiv);
+
+  $.each(selectValues, function(key, value) {
+    if(value === "Yes") {
+      field.append($("<option></option>")
+        .attr("value","true")
+        .text(value)); 
+    } else if(value === "No") {
+      field.append($("<option></option>")
+        .attr("value","false")
+        .text(value)); 
+    } else {
+      field.append($("<option></option>")
+        .attr("value",value)
+        .text(value)); 
+    }
+  });
+}
+
+function AddNumericDropDownField(formList, name, label, selectValues) {
+  var formListElement = $("<li/>", {
+    class: "zsg-form-field zsg-g"
+  }).appendTo(formList);
+
+  var labelListElementDiv = $("<div/>", {
+    class: "label zsg-lg-1-4 zsg-sm-1-1"
+  }).appendTo(formListElement);
+
+  var labelTag = $("<label/>", {
+    text: label
+  }).appendTo(labelListElementDiv);
+
+  labelTag.css("font-weight", "Bold");
+
+  var fieldListElementDiv = $("<div/>", {
+    class: "field zsg-lg-3-4 zsg-sm-1-1"
+  }).appendTo(formListElement);
+
+  var field = $("<select/>", {
+    name: name,
+    id: name
   }).appendTo(fieldListElementDiv);
 
   $.each(selectValues, function(key, value) {   
     field.append($("<option></option>")
-      .attr("value",value)
+      .attr("value",parseInt(value))
       .text(value)); 
   });
 }
