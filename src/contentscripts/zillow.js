@@ -8,7 +8,30 @@ function startZillow() {
     });
   }, 100);
 
-    globalStorage.getItem("userInfo", function(value) {
+    
+
+//	console.log("Comfortable House cost: " + comfortableHouseCost);
+//	console.log("Max House cost: " + maxHouseCost);
+
+//	var interestRate = getInterestRate(comfortableHouseCost, function(interestRate) {
+//			console.log("interestRate: " + interestRate);
+//	});
+	
+	var doIQualify = doIqualify("WA", function(interestRate) {
+		console.log("Do I Qualify: " + interestRate);
+	});
+
+	recommendationForPrice(500000, function(recommendation) {
+		console.log("Recommendation: " + recommendation);
+	});
+
+  if(window.location.pathname.indexOf("Profile.htm") !== -1) {
+	modifyZillowProfile();
+  }
+}
+
+function calculateCostRange() {
+globalStorage.getItem("userInfo", function(value) {
 //	console.log("Value: " + value);
 
 	var parsedJSON = JSON.parse(value);
@@ -41,26 +64,7 @@ function startZillow() {
 	};
 
 	globalStorage.setItem("houseCosts", JSON.stringify(houseCostObjects));
-
-//	console.log("Comfortable House cost: " + comfortableHouseCost);
-//	console.log("Max House cost: " + maxHouseCost);
-
-//	var interestRate = getInterestRate(comfortableHouseCost, function(interestRate) {
-//			console.log("interestRate: " + interestRate);
-//	});
-	
-	var doIQualify = doIqualify("WA", function(interestRate) {
-		console.log("Do I Qualify: " + interestRate);
-	});
-
-	recommendationForPrice(500000, function(recommendation) {
-		console.log("Recommendation: " + recommendation);
-	});
     });
-
-  if(window.location.pathname.indexOf("Profile.htm") !== -1) {
-	modifyZillowProfile();
-  }
 }
 
 function recommendationForPrice(houseCost, callback) {
