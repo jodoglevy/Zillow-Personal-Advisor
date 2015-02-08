@@ -1,6 +1,6 @@
 {
     "name":"Zillow Personal Advisor",
-    "version":"0.5",
+    "version":"0.6",
     "description":"Zillow Personal Advisor",
     "manifest_version": 2,
     "incognito": "spanning",
