@@ -54,6 +54,26 @@ function modifyZillowMap() {
       if(homePrice != lastHomePrice) {
         lastHomePrice = homePrice;
 
+        var adviceElement = $("#adviceForHome");
+        var adviceElementIsNew = false;
+
+        if(adviceElement.length == 0) {
+          adviceElement = $("<div id='adviceForHome' />");
+          adviceElementIsNew = true;
+        }
+        else {
+          adviceElement.empty();
+        }
+
+        adviceElement.append($("<div class='loan-calculator-label' style='color: #00cc22'>Zillow Personal Advisor</div>"));
+        adviceElement.append($("<strong class='hlc-output-fixed30'>Advise for home based on your financials:</strong><br />"));
+        adviceElement.append($("<br /><span id='personal-advisor-advice-message'><span>Loading advice...  </span><img src='/static/images/zsg/loader-white.gif' /></span><br /><br /><br />"));
+        adviceElement.append($("<div class='loan-calculator-label'>Description</div>"));
+        
+        if(adviceElementIsNew) {
+          $("#home-value-wrapper").append(adviceElement);
+        }
+
         recommendationForPrice(homePrice, function(recommendation) {
           var recommendationMessage = "";
           if(recommendation.message) {
@@ -63,25 +83,7 @@ function modifyZillowMap() {
             recommendationMessage = "Based on your current liquid assets, we recommend a <strong>" + recommendation.percentage + "%</strong> down payment, which will result in an average <strong>" + recommendation.interestRate.toFixed(2) + "%</strong> interest rate and a <strong>$" + recommendation.monthlyPayment.toFixed(2) + "</strong> monthly payment.";
           }
 
-          var adviceElement = $("#adviceForHome");
-          var adviceElementIsNew = false;
-
-          if(adviceElement.length == 0) {
-            adviceElement = $("<div id='adviceForHome' />");
-            adviceElementIsNew = true;
-          }
-          else {
-            adviceElement.empty();
-          }
-
-          adviceElement.append($("<div class='loan-calculator-label' style='color: #00cc22'>Zillow Personal Advisor</div>"));
-          adviceElement.append($("<strong class='hlc-output-fixed30'>Advise for home based on your financials:</strong><br />"));
-          adviceElement.append($("<br /><span>" + recommendationMessage + "</span><br /><br /><br />"));
-          adviceElement.append($("<div class='loan-calculator-label'>Description</div>"));
-          
-          if(adviceElementIsNew) {
-            $("#home-value-wrapper").append(adviceElement);
-          }
+          adviceElement.find("#personal-advisor-advice-message").empty().text(recommendationMessage);
         });
       }
     }
