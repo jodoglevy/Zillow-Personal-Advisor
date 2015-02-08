@@ -10,7 +10,11 @@ chrome.runtime.onMessage.addListener(
       sendResponse(localStorage.getItem(request.get));
     }
     else if(request.set) {
-      localStorage.setItem(request.set.key, request.set.value);
+      if(request.set.value) {
+        localStorage.setItem(request.set.key, request.set.value);
+      } else {
+        localStorage.removeItem(request.set.key);
+      }
       sendResponse();
     }
     else if(request.shouldReload) {

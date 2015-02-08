@@ -15,7 +15,7 @@
             "*://*.mint.com/*",
             "*://*.zillow.com/*"
         ],
-        "js": ["shared/jquery-1.11.1.min.js", "contentscripts/mint.js", "contentscripts/zillow.js", "contentscripts/hackHousingProject.js"],
+        "js": ["shared/jquery-1.11.1.min.js", "contentscripts/mint.js", "contentscripts/zillow.js", "contentscripts/zillowProfile.js", "contentscripts/hackHousingProject.js"],
         "run_at":"document_start"
     }],
     "web_accessible_resources": [
