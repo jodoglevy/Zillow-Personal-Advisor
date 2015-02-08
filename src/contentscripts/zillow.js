@@ -14,7 +14,7 @@ function reloadMap() {
 }
 
 function startZillow() {
-    
+
   setInterval(function() {
     chrome.runtime.sendMessage({"shouldReload": true}, function(shouldReload) {
       if(shouldReload) {
@@ -25,6 +25,17 @@ function startZillow() {
       }
     });
   }, 100);
+
+  function checkForSearchFilters() {
+        var searchFilters = $("#searchfilters");
+        if(searchFilters) {
+            appendHUDFilter(searchFilters);
+        }
+        else {
+            setTimeout(checkForSearchFilters, 100);
+        }
+  }
+  checkForSearchFilters();
 
   if(window.location.pathname.toLowerCase().indexOf("profile.htm") !== -1) {
 		modifyZillowProfile();
@@ -39,7 +50,7 @@ function startZillow() {
 //	var interestRate = getInterestRate(comfortableHouseCost, function(interestRate) {
 //			console.log("interestRate: " + interestRate);
 //	});
-	
+
 	var doIQualify = doIqualify("WA", function(interestRate) {
 		console.log("Do I Qualify: " + interestRate);
 	});
@@ -60,19 +71,19 @@ function calculateCostRange() {
 	var martialStatus = parsedJSON.martialStatus;
 	var monthlyHousingCost = parsedJSON.monthlyHousingCost;
 	var averageMonthlyLeftOver = parsedJSON.averageMonthlyLeftOver;
-	
+
 	var interestRate = .04; // Need to calculate this but currently hard code to 4%
 	var mortgagePeriod = 360; // Assume 30 year fixed
 	var c = interestRate/12;
 
 //	console.log("c: " + c);
-	
+
 	var currentHouseCostLoanAmount = monthlyHousingCost * (Math.pow((1+c), mortgagePeriod) - 1) / (c * Math.pow((1+c), mortgagePeriod));
 	var maxLoanAmount = (monthlyHousingCost+averageMonthlyLeftOver) * (Math.pow((1+c), mortgagePeriod) - 1) / (c * Math.pow((1+c), mortgagePeriod));
 
 //	console.log("Loan Amount based on current monthlyHousingCost: " + currentHouseCostLoanAmount);
 //	console.log("Loan Amount based on current monthlyHousingCost and avg monthly leftOver: " + maxLoanAmount);
-	
+
 	var availableForDown = totalLiquidAssets*.9;
 	var comfortableHouseCost = Math.round(currentHouseCostLoanAmount + availableForDown);
 	var maxHouseCost = Math.round(maxLoanAmount + availableForDown);
@@ -86,18 +97,20 @@ function calculateCostRange() {
     });
 }
 
+
+
 function recommendationForPrice(houseCost, callback) {
 	globalStorage.getItem("userInfo", function(value) {
 		var twentyPercent = Math.round(houseCost*.2);
 		var tenPercent = Math.round(houseCost*.1);
 		var threefivePercent = Math.round(houseCost*.035);
-		
+
 		var parsedJSON = JSON.parse(value);
 		var totalLiquidAssets = parsedJSON.totalLiquidAssets;
 		var creditScore = parsedJSON.creditScore;
 		var monthlyIncome = parsedJSON.monthlyIncome;
 		var yearlyIncome = monthlyIncome*12*1.3;
-		
+
 		if (twentyPercent <= totalLiquidAssets) {
 			getInterestRate(houseCost, creditScore, yearlyIncome, Math.round(houseCost*.2), function(interestRate) {
 				if (interestRate == null) {
@@ -371,7 +384,7 @@ function getInterestRate(houseCost, creditScore, yearlyIncome, downpayment, call
 		'desiredPrograms.0=Fixed30Year&' +
 		'partnerId=RD-FVBXMBZ&' +
 		'userSessionId=' + guid
-	
+
 //	console.log("SubmitRequestUrl: " + submitRequestUrl);
 	$.ajax({
   		url: submitRequestUrl
@@ -380,8 +393,8 @@ function getInterestRate(houseCost, creditScore, yearlyIncome, downpayment, call
 		var requestId = submitRequestResponse.requestId;
 //		console.log("Response: " + submitRequestResponse);
 //		console.log("RequestId: " + requestId);
-		var getQuotesUrl = 'https://mortgageapi.zillow.com/getQuotes?partnerId=RD-FVBXMBZ&requestRef.id=' + requestId;	
-		
+		var getQuotesUrl = 'https://mortgageapi.zillow.com/getQuotes?partnerId=RD-FVBXMBZ&requestRef.id=' + requestId;
+
 		setTimeout(function(){
 			$.ajax({
 				url: getQuotesUrl
@@ -390,7 +403,7 @@ function getInterestRate(houseCost, creditScore, yearlyIncome, downpayment, call
 				for (var key in getQuotesResponse) {
 //		      			console.log(key,":",getQuotesResponse[key]);
 		  		}
-		
+
 				var quotes = getQuotesResponse["quotes"];
 				var count = 0;
 				var totalapr = 0;
@@ -401,7 +414,7 @@ function getInterestRate(houseCost, creditScore, yearlyIncome, downpayment, call
 					totalapr += parseInt(apr);
 					count++;
 				}
-			
+
 				if (count != 0) {
 					var avgapr = totalapr/count;
 //					console.log("average apr: " + avgapr);
@@ -410,10 +423,10 @@ function getInterestRate(houseCost, creditScore, yearlyIncome, downpayment, call
 					callback(null);
 				}
 			});
-		}, 10000);		
+		}, 10000);
 	});
 
-	
+
 }
 
 function getCookie(cname) {
