@@ -1,5 +1,5 @@
 function modifyZillowProfile() {
-  var financialDataLink = $("<br /><p><strong>Need advise? </strong><a>Add your finances to Zillow</a> and we'll find the best homes for <strong>you, personally.</strong> Pull your data from <span style='color: #00c96d'><strong>Mint</strong></span> or enter it manually.</p>");
+  var financialDataLink = $("<br /><p><strong>Need advice? </strong><a>Add your finances to Zillow</a> and we'll find the best homes for <strong>you, personally.</strong> Pull your data from <span style='color: #00c96d'><strong>Mint</strong></span> or enter it manually.</p>");
 
   financialDataLink.click(function() {
     var containerElement = $("#profile-aboutme-editRegion").parent();
@@ -11,22 +11,22 @@ function modifyZillowProfile() {
       }).appendTo(containerElement);
 
       setupPullFromMint(financialDataSection);
-    
+
       setupFinancialForm(financialDataSection);
     }
-    
+
     $("#affordabilityDiv").hide();
     $("#financial-data").slideDown();
 
-    
+
   });
 
   $("#profile-aboutme-content").append(financialDataLink);
-  
+
 }
 
 function setupPullFromMint(financialDataSection) {
-  
+
 
     if(!$("#mintButton").length) {
       var pullFromMintButton = $("<button/>", {
@@ -64,7 +64,7 @@ function setupPullFromMint(financialDataSection) {
     }
 }
 
-function setupFinancialForm(financialDataSection) {  
+function setupFinancialForm(financialDataSection) {
 
     var form = $("<form/>", {
       id: "financial-form",
@@ -237,7 +237,7 @@ function setAffordabilityNumbers(info) {
     $("#comfortCost").val("$" + $("#comfortableHouseSlider").slider("value"));
     $("#maxCost").val("$" + $("#maxHouseSlider").slider("value"));
   }
-  
+
   $("#affordabilityDiv").slideDown(700);
 }
 
@@ -384,15 +384,15 @@ function AddDropDownField(formList, name, label, selectValues, canComeFromMint) 
     if(value === "Yes") {
       field.append($("<option></option>")
         .attr("value","true")
-        .text(value)); 
+        .text(value));
     } else if(value === "No") {
       field.append($("<option></option>")
         .attr("value","false")
-        .text(value)); 
+        .text(value));
     } else {
       field.append($("<option></option>")
         .attr("value",value)
-        .text(value)); 
+        .text(value));
     }
   });
 }
@@ -422,9 +422,9 @@ function AddNumericDropDownField(formList, name, label, selectValues, canComeFro
     id: name
   }).appendTo(fieldListElementDiv);
 
-  $.each(selectValues, function(key, value) {   
+  $.each(selectValues, function(key, value) {
     field.append($("<option></option>")
       .attr("value",parseInt(value))
-      .text(value)); 
+      .text(value));
   });
 }
