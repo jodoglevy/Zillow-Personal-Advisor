@@ -6,7 +6,7 @@ function reloadMap() {
 
   	setTimeout(function() {
   		$(".zoom-out").click();
-  	}, 200);
+  	}, 1000);
  	}
   else {
   	setTimeout(reloadMap, 100);
@@ -30,6 +30,7 @@ function startZillow() {
         var searchFilters = $("#searchfilters");
         if(searchFilters) {
             appendHUDFilter(searchFilters);
+            appendMapFilter(searchFilters);
         }
         else {
             setTimeout(checkForSearchFilters, 100);
@@ -72,7 +73,7 @@ function calculateCostRange() {
 	var monthlyHousingCost = parsedJSON.monthlyHousingCost;
 	var averageMonthlyLeftOver = parsedJSON.averageMonthlyLeftOver;
 
-	var interestRate = .04; // Need to calculate this but currently hard code to 4%
+	var interestRate = .045; // Need to calculate this but currently hard code to 4%
 	var mortgagePeriod = 360; // Assume 30 year fixed
 	var c = interestRate/12;
 

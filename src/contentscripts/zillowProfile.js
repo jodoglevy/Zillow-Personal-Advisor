@@ -145,6 +145,8 @@ function setupFinancialForm(financialDataSection) {
 
       globalStorage.setItem('userInfo', userInfoStringified);
 
+      calculateCostRange();
+
       financialDataSection.slideUp(400, function() {
         globalStorage.getItem("houseCosts", function(houseCosts) {
           if(houseCosts) {
@@ -174,7 +176,7 @@ function setAffordabilityNumbers(info) {
     });
     var comfortableHouseCost = $("<input id='comfortCost' type='text' style='width:100px'/>");
     affordabilityDiv.append(comfortableHouseCost);
-    affordabilityDiv.append("<p>Comfortable House Cost</p>");
+    affordabilityDiv.append("<p id='comfortText'>Comfortable House Cost (Original Suggestion: " + info.comfortableHouseCost + ")</p>");
     var comfortableHouseSlider = $("<div/>", {
       id : "comfortableHouseSlider"
     });
@@ -185,7 +187,7 @@ function setAffordabilityNumbers(info) {
 
     var maxHouseCost = $("<input id='maxCost' type='text' style='width:100px'/>");
     affordabilityDiv.append(maxHouseCost);
-    affordabilityDiv.append("<p>Max House Cost</p>");
+    affordabilityDiv.append("<p id='maxText'>Max House Cost (Original Suggestion: " + info.maxHouseCost + ")</p>");
 
     var maxHouseSlider = $("<div/>", {
       id : "maxHouseSlider"
@@ -197,10 +199,15 @@ function setAffordabilityNumbers(info) {
     comfortableHouseSlider.slider({
       value: parseInt(info.comfortableHouseCost),
       min: 0,
-      max: 1000000,
+      max: 3000000,
       step: 10000,
       slide: function( event, ui ) {
         comfortableHouseCost.val("$" + ui.value );
+        globalStorage.getItem("houseCosts", function(houseCosts) {
+          var houseCostsObject = JSON.parse(houseCosts);
+          houseCostsObject.comfortableHouseCost = ui.value;
+          globalStorage.setItem("houseCosts", JSON.stringify(houseCostsObject));
+        });
       }
     });
     comfortableHouseCost.val("$" + comfortableHouseSlider.slider("value"));
@@ -208,16 +215,27 @@ function setAffordabilityNumbers(info) {
     maxHouseSlider.slider({
       value: parseInt(info.maxHouseCost),
       min: 0,
-      max: 1000000,
+      max: 3000000,
       step: 10000,
       slide: function( event, ui ) {
         maxHouseCost.val("$" + ui.value );
+        globalStorage.getItem("houseCosts", function(houseCosts) {
+          var houseCostsObject = JSON.parse(houseCosts);
+          houseCostsObject.maxHouseCost = ui.value;
+          globalStorage.setItem("houseCosts", JSON.stringify(houseCostsObject));
+        });
       }
     });
     maxHouseCost.val("$" + maxHouseSlider.slider("value"));
   } else {
     $("#comfortCost").text("Comfortable House Cost: " + info.comfortableHouseCost);
     $("#maxCost").text("Comfortable House Cost: " + info.maxHouseCost);
+    $("#comfortText").text("Comfortable House Cost (Original Suggestion: " + info.comfortableHouseCost + ")");
+    $("#maxText").text("Max House Cost (Original Suggestion: " + info.maxHouseCost + ")");
+    $("#comfortableHouseSlider").slider('value', info.comfortableHouseCost);
+    $("#maxHouseSlider").slider('value', info.maxHouseCost);
+    $("#comfortCost").val("$" + $("#comfortableHouseSlider").slider("value"));
+    $("#maxCost").val("$" + $("#maxHouseSlider").slider("value"));
   }
   
   $("#affordabilityDiv").slideDown(700);
